@@ -78,6 +78,21 @@ function showApp() {
   loadDashboard();
 }
 
+// ---------------- Mobile sidebar ----------------
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+function closeSidebar(){
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('open');
+}
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  sidebarOverlay.classList.toggle('open');
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', closeSidebar));
+
 // ---------------- Navigation ----------------
 document.querySelectorAll('.nav-item').forEach((btn) => {
   btn.addEventListener('click', () => switchView(btn.dataset.view));

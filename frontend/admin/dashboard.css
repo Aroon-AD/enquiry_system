@@ -81,6 +81,15 @@ button{
 
 /* ---------- APP SHELL ---------- */
 .app-shell{display:flex;min-height:100vh;}
+
+/* hamburger — hidden on desktop */
+.menu-toggle{
+  display:none;position:fixed;top:12px;left:12px;z-index:200;
+  background:var(--ink);border:none;color:#fff;
+  width:40px;height:40px;border-radius:8px;
+  font-size:20px;align-items:center;justify-content:center;
+}
+
 .sidebar{
   width:230px;
   background:var(--ink);
@@ -112,7 +121,26 @@ nav{margin-top:32px;display:flex;flex-direction:column;gap:4px;flex:1;}
 }
 .logout-btn:hover{border-color:var(--brick);color:#fff;}
 
-.content{flex:1;padding:36px 40px;max-width:1200px;}
+.content{flex:1;padding:36px 40px;max-width:1200px;overflow-x:hidden;}
+
+/* ---------- MOBILE SIDEBAR ---------- */
+@media(max-width:768px){
+  .menu-toggle{display:flex;}
+  .sidebar{
+    position:fixed;top:0;left:0;height:100vh;z-index:100;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    width:240px;
+  }
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99;
+  }
+  .sidebar-overlay.open{display:block;}
+  .content{padding:20px 16px;padding-top:64px;}
+  .toolbar{flex-direction:column;}
+  #searchInput{min-width:unset;width:100%;}
+}
 .view-header{margin-bottom:24px;}
 .view-header .sub{color:var(--slate);font-size:14px;margin-top:4px;}
 
