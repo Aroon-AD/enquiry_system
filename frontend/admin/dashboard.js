@@ -1,4 +1,4 @@
-const API_BASE = window.ENQUIRY_API_BASE || 'https://enquiry-system-frjr.onrender.com/api';
+const API_BASE = window.ENQUIRY_API_BASE || 'http://localhost:5000/api';
 
 let state = {
   token: localStorage.getItem('enquiry_token') || null,
