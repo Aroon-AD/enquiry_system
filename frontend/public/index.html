@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vattal Studios — Project Enquiry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#14181C;
+    --paper:#F5F6F4;
+    --card:#FFFFFF;
+    --slate:#5B6670;
+    --line:#DDE1E0;
+    --signal:#2F5D8A;
+    --signal-dark:#234866;
+    --brick:#B23A2E;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:48px 20px 80px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(28px,4vw,38px);
+    font-weight:700;
+    margin:0 0 12px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--slate);
+    font-size:16px;
+    max-width:52ch;
+    margin:0 0 36px;
+  }
+  form{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    border-left:4px solid var(--signal);
+    padding:32px;
+  }
+  .row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:560px){
+    .row{grid-template-columns:1fr;}
+    .wrap{padding:32px 16px 60px;}
+    form{padding:22px;}
+  }
+  .field{margin-bottom:20px;}
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  label .opt{
+    font-weight:400;
+    color:var(--slate);
+    text-transform:none;
+    font-size:12px;
+  }
+  input[type=text], input[type=email], input[type=tel], textarea, select{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    background:#fff;
+    color:var(--ink);
+    transition:border-color .15s;
+  }
+  textarea{resize:vertical;min-height:120px;}
+  input:focus, textarea:focus, select:focus{
+    outline:none;
+    border-color:var(--signal);
+    box-shadow:0 0 0 3px rgba(47,93,138,.12);
+  }
+  .hint{font-size:12px;color:var(--slate);margin-top:5px;}
+  .file-drop{
+    border:1.5px dashed var(--line);
+    border-radius:8px;
+    padding:18px;
+    text-align:center;
+    font-size:13.5px;
+    color:var(--slate);
+    cursor:pointer;
+    background:#FAFBFA;
+  }
+  .file-drop:hover{border-color:var(--signal);}
+  #fileList{margin-top:8px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;color:var(--ink);}
+  button{
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    padding:13px 26px;
+    border-radius:8px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  button:hover{background:var(--signal-dark);}
+  button:disabled{opacity:.6;cursor:not-allowed;}
+  .error-text{color:var(--brick);font-size:12.5px;margin-top:5px;display:none;}
+  .field.invalid input, .field.invalid textarea, .field.invalid select{border-color:var(--brick);}
+  .field.invalid .error-text{display:block;}
+
+  /* Success stub */
+  .stub{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid #2F7D5B;
+    border-radius:var(--radius);
+    padding:32px;
+    text-align:left;
+  }
+  .stub h2{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0 0 8px;
+    font-size:22px;
+  }
+  .stub p{color:var(--slate);margin:0 0 18px;font-size:14.5px;}
+  .code{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:18px;
+    font-weight:500;
+    background:var(--paper);
+    border:1px dashed var(--line);
+    padding:10px 16px;
+    border-radius:6px;
+    letter-spacing:.03em;
+  }
+  .banner{
+    display:none;
+    background:#FCEDEB;
+    border:1px solid var(--brick);
+    color:#7A281F;
+    padding:12px 16px;
+    border-radius:8px;
+    font-size:13.5px;
+    margin:20px 0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Vattal Studios</p>
+  <h1>Tell us about your project</h1>
+  <p class="sub">Share a few details and our team will get back to you shortly. You'll receive a reference code to track your enquiry.</p>
+
+  <form id="enquiryForm" novalidate>
+    <div class="row">
+      <div class="field" id="f-fullName">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" name="fullName" required maxlength="120" />
+        <div class="error-text">Please enter your full name.</div>
+      </div>
+      <div class="field" id="f-email">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required maxlength="160" />
+        <div class="error-text">Please enter a valid email address.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field" id="f-phone">
+        <label for="phone">Phone <span class="opt">(optional)</span></label>
+        <input type="tel" id="phone" name="phone" maxlength="30" />
+      </div>
+      <div class="field" id="f-company">
+        <label for="company">Company <span class="opt">(optional)</span></label>
+        <input type="text" id="company" name="company" maxlength="160" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field" id="f-projectType">
+        <label for="projectType">Project type</label>
+        <select id="projectType" name="projectType">
+          <option>Web Development</option>
+          <option>Mobile App</option>
+          <option>Consulting</option>
+          <option>Design</option>
+          <option>Support</option>
+          <option selected>Other</option>
+        </select>
+      </div>
+      <div class="field" id="f-budgetRange">
+        <label for="budgetRange">Budget range</label>
+        <select id="budgetRange" name="budgetRange">
+          <option>Under $5k</option>
+          <option>$5k - $20k</option>
+          <option>$20k - $50k</option>
+          <option>$50k+</option>
+          <option selected>Not sure</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field" id="f-subject">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" required maxlength="200" />
+      <div class="error-text">Please enter a subject.</div>
+    </div>
+
+    <div class="field" id="f-message">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required maxlength="5000" placeholder="Describe your project, goals, and timeline..."></textarea>
+      <div class="hint">Minimum 10 characters.</div>
+      <div class="error-text">Please enter a message of at least 10 characters.</div>
+    </div>
+
+    <div class="field">
+      <label>Attachments <span class="opt">(optional, up to 3 files, 5MB each — PDF, JPG, PNG, WEBP, DOC, DOCX, TXT)</span></label>
+      <label class="file-drop" for="attachments">Click to choose files</label>
+      <input type="file" id="attachments" name="attachments" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.txt" style="display:none;" />
+      <div id="fileList"></div>
+    </div>
+
+    <div class="banner" id="errorBanner"></div>
+    <button type="submit" id="submitBtn">Submit enquiry</button>
+  </form>
+
+  <div class="stub" id="successStub">
+    <h2>Enquiry received</h2>
+    <p>Thank you — we've logged your enquiry. Keep this reference code to check on its status.</p>
+    <span class="code" id="refCode"></span>
+    <br/>
+    <button onclick="location.reload()" style="margin-top:24px;">← Back to Home</button>
+  </div>
+</div>
+
+<script>
+  const API_BASE = window.ENQUIRY_API_BASE || 'http://localhost:5000/api';
+
+  const form = document.getElementById('enquiryForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorBanner = document.getElementById('errorBanner');
+  const fileInput = document.getElementById('attachments');
+  const fileList = document.getElementById('fileList');
+
+  fileInput.addEventListener('change', () => {
+    fileList.textContent = Array.from(fileInput.files).map(f => f.name).join(', ');
+  });
+
+  function clearErrors(){
+    document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+    errorBanner.style.display = 'none';
+    errorBanner.textContent = '';
+  }
+
+  function showFieldError(fieldName){
+    const el = document.getElementById('f-' + fieldName);
+    if(el) el.classList.add('invalid');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    let hasError = false;
+    if(!fullName){ showFieldError('fullName'); hasError = true; }
+    if(!email || !/^\S+@\S+\.\S+$/.test(email)){ showFieldError('email'); hasError = true; }
+    if(!subject){ showFieldError('subject'); hasError = true; }
+    if(!message || message.length < 10){ showFieldError('message'); hasError = true; }
+    if(hasError) return;
+
+    const fd = new FormData(form);
+    // FormData already includes files from the `attachments` input under the same name
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(`${API_BASE}/enquiries`, {
+        method: 'POST',
+        body: fd,
+      });
+      const data = await res.json();
+
+      if(!res.ok){
+        if(data.errors && Array.isArray(data.errors)){
+          data.errors.forEach(err => showFieldError(err.field));
+        }
+        errorBanner.textContent = data.message || 'Something went wrong. Please check the form and try again.';
+        errorBanner.style.display = 'block';
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit enquiry';
+        return;
+      }
+
+      form.style.display = 'none';
+      document.getElementById('refCode').textContent = data.referenceCode;
+      document.getElementById('successStub').style.display = 'block';
+    } catch (err) {
+      errorBanner.textContent = 'Could not reach the server. Please try again later.';
+      errorBanner.style.display = 'block';
+      errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit enquiry';
+    }
+  });
+</script>
+</body>
+</html>

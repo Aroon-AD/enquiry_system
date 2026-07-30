@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vattal Studios — Admin Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="loginView" class="login-screen">
+  <form id="loginForm" class="login-card">
+    <p class="eyebrow">Vattal Studios</p>
+    <h1>Admin Console</h1>
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" required />
+    </div>
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" required />
+    </div>
+    <div id="loginError" class="login-error"></div>
+    <button type="submit" id="loginBtn">Sign in</button>
+  </form>
+</div>
+
+<!-- APP SHELL -->
+<div id="appView" class="app-shell" style="display:none;">
+  <aside class="sidebar">
+    <div class="brand">
+      <p class="eyebrow">Vattal Studios</p>
+      <h2>Admin Console</h2>
+    </div>
+    <nav>
+      <button class="nav-item active" data-view="dashboard">Dashboard</button>
+      <button class="nav-item" data-view="enquiries">Enquiries</button>
+      <button class="nav-item" data-view="audit">Audit Log</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="who">
+        <span id="whoName">—</span>
+        <span id="whoRole" class="role-tag">—</span>
+      </div>
+      <button id="logoutBtn" class="logout-btn">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <!-- DASHBOARD VIEW -->
+    <section id="view-dashboard" class="view">
+      <header class="view-header">
+        <h1>Overview</h1>
+        <p class="sub">Snapshot of current enquiry volume and workload.</p>
+      </header>
+      <div class="stat-grid" id="statGrid"></div>
+      <div class="panel">
+        <h3>By status</h3>
+        <div id="statusBars" class="bars"></div>
+      </div>
+    </section>
+
+    <!-- ENQUIRIES LIST VIEW -->
+    <section id="view-enquiries" class="view" style="display:none;">
+      <header class="view-header">
+        <h1>Enquiries</h1>
+        <p class="sub">Search, filter, and manage incoming project enquiries.</p>
+      </header>
+
+      <div class="toolbar">
+        <input type="text" id="searchInput" placeholder="Search name, email, subject, reference..." />
+        <select id="filterStatus">
+          <option value="">All statuses</option>
+          <option>New</option>
+          <option>In Progress</option>
+          <option>On Hold</option>
+          <option>Resolved</option>
+          <option>Closed</option>
+        </select>
+        <select id="filterPriority">
+          <option value="">All priorities</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+          <option>Urgent</option>
+        </select>
+        <select id="sortBy">
+          <option value="createdAt">Newest first</option>
+          <option value="updatedAt">Recently updated</option>
+          <option value="priority">Priority</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Reference</th>
+              <th>Submitted by</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Received</th>
+            </tr>
+          </thead>
+          <tbody id="enquiryTableBody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </section>
+
+    <!-- ENQUIRY DETAIL VIEW -->
+    <section id="view-detail" class="view" style="display:none;">
+      <button class="back-btn" id="backToList">&larr; Back to list</button>
+      <div id="detailContent"></div>
+    </section>
+
+    <!-- AUDIT LOG VIEW -->
+    <section id="view-audit" class="view" style="display:none;">
+      <header class="view-header">
+        <h1>Audit Log</h1>
+        <p class="sub">Every status change, assignment, and access event, system-wide.</p>
+      </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Actor</th>
+              <th>Action</th>
+              <th>Detail</th>
+              <th>Enquiry</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="auditPagination"></div>
+    </section>
+  </main>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
